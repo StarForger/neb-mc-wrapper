@@ -1,3 +1,4 @@
 #!/usr/bin/env bash
-
-sleep 5
+echo "sleeping"
+sleep 2
+echo "awake"

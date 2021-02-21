@@ -1,0 +1,8 @@
+version: "3.9" 
+services:
+  wrapper:
+    image: circleci/golang:1.15      
+    working_dir: "/usr/src/app"
+    volumes:
+    - "${PWD}:/usr/src/app"    
+    command: "./test.sh"

@@ -16,18 +16,18 @@ const name = "mc-wrapper"
 
 func main() { 
 	// Arguments	
-  debug         := *flag.Bool("v", false, "Enable debug logging")
-  detachStdin   := *flag.Bool("d", false, "Don't forward stdin and allow process to be put in background")
-  shell         := *flag.String("shell", "", "")
-  stopDuration  := *flag.Duration("s", 0, "Duration to wait after sending the 'stop' command")
+  debug         := *flag.Bool("v", false, "Enable verbose logging")
+  detachStdin   := *flag.Bool("d", false, "Detach stdin and send process to background")
+  shell         := *flag.String("shell", "", "Shell to run command arguments")
+  stopDuration  := *flag.Duration("s", 0, "Time to wait after sending the 'stop' command")
 
   // Parse Flags
   flag.Parse()  
 
 	// Logs
-	logger := zap-config.LoggerInfo()
+	logger := zapconfig.LoggerInfo()
 	if debug {
-		logger = zap-config.LoggerDebug()
+		logger = zapconfig.LoggerDebug()
 	}
 	defer logger.Sync()
 	logger = logger.Named(name)	
@@ -86,8 +86,8 @@ func main() {
   osSignalChannel := make(chan os.Signal, 1)
   // initialize a buffered channel for exit
   cmdExitChannel := make(chan int, 1)
-  // intercept SIGTERM, send via signalChan
-  signal.Notify(signalChan, syscall.SIGTERM)	
+  // intercept SIGTERM, send via osSignalChannel
+  signal.Notify(osSignalChannel, syscall.SIGTERM)	
 
   // Wait Goroutine (async)
   go func() {
