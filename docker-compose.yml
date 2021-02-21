@@ -1,6 +1,13 @@
 version: "3.9" 
 services:
-  wrapper:
+  build:
+    image: circleci/golang:1.15      
+    working_dir: "/usr/src/app"
+    volumes:
+    - "${PWD}:/usr/src/app"    
+    # command: "go build -o build/neb-mc-wrapper -ldflags \"-s -w\""
+    command: "go build -o build/neb-mc-wrapper"
+  test:
     image: circleci/golang:1.15      
     working_dir: "/usr/src/app"
     volumes:
