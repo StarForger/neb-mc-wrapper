@@ -1,21 +1,21 @@
 package main
 
 import (
-	"flag"                                    // implements command-line flag parsing	
-	"github.com/StarForger/neb-zap-config"    // logging config
-	"go.uber.org/zap"                         // structured, leveled logging
-	"io"                                      // basic interfaces to I/O primitives	
-	"os"                                      // platform-independent interface to operating system functionality
-	"os/exec"                                 // runs external commands
-	"os/signal"                               // access to incoming signals	
-	"syscall"                                 // interface to the low-level operating system primitives
-	"time"                                    // functionality for measuring and displaying time
+  "flag"                                    // implements command-line flag parsing	
+  "github.com/StarForger/neb-zap-config"    // logging config
+  "go.uber.org/zap"                         // structured, leveled logging
+  "io"                                      // basic interfaces to I/O primitives	
+  "os"                                      // platform-independent interface to operating system functionality
+  "os/exec"                                 // runs external commands
+  "os/signal"                               // access to incoming signals	
+  "syscall"                                 // interface to the low-level operating system primitives
+  "time"                                    // functionality for measuring and displaying time
 )
 
 const name = "mc-wrapper"
 
 func main() { 
-	// Arguments	
+  // Arguments	
   debug         := *flag.Bool("v", false, "Enable verbose logging")
   detachStdin   := *flag.Bool("d", false, "Detach stdin and send process to background")
   shell         := *flag.String("shell", "", "Shell to run command arguments")
@@ -24,22 +24,22 @@ func main() {
   // Parse Flags
   flag.Parse()  
 
-	// Logs
-	logger := zapconfig.LoggerInfo()
-	if debug {
-		logger = zapconfig.LoggerDebug()
-	}
-	defer logger.Sync()
-	logger = logger.Named(name)	
+  // Logs
+  logger := zapconfig.LoggerInfo()
+  if debug {
+    logger = zapconfig.LoggerDebug()
+  }
+  defer logger.Sync()
+  logger = logger.Named(name)	
 
-	// Command Error Check
-	if flag.NArg() < 1 {
-		logger.Fatal("Missing executable arguments")
-	}
+  // Command Error Check
+  if flag.NArg() < 1 {
+    logger.Fatal("Missing executable arguments")
+  }
 
-	// external command being prepared  
+  // external command being prepared  
   var cmd *exec.Cmd
-	if shell != "" {
+  if shell != "" {
     cmd = exec.Command(shell, flag.Args()...)
   } else {
     cmd = exec.Command(flag.Arg(0), flag.Args()[1:]...)
@@ -134,9 +134,9 @@ func main() {
 }
 
 func stopViaConsole(logger *zap.Logger, stdin io.Writer) {
-	logger.Info("Sending 'stop' to Minecraft server...")
-	_, err := stdin.Write([]byte("stop\n"))
-	if err != nil {
-		logger.Error("failed to write stop command to server console", zap.Error(err))
-	}
+  logger.Info("Sending 'stop' to Minecraft server...")
+  _, err := stdin.Write([]byte("stop\n"))
+  if err != nil {
+    logger.Error("failed to write stop command to server console", zap.Error(err))
+  }
 }
