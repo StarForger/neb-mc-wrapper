@@ -3,10 +3,13 @@ services:
   build:
     image: circleci/golang:1.15      
     working_dir: "/usr/src/app"
+    environment:
+      GOOS: linux
+      GARCH: amd64
+      CGO_ENABLED: 0
     volumes:
     - "${PWD}:/usr/src/app"    
-    # command: "go build -o build/neb-mc-wrapper -ldflags \"-s -w\""
-    command: "go build -o build/neb-mc-wrapper"
+    command: "./build.sh"
   test:
     image: circleci/golang:1.15      
     working_dir: "/usr/src/app"
